@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -15,7 +16,7 @@ import { TodoListsService } from './todo_lists.service';
 import { CreateTodoItemDto } from './dtos/create-todo_item';
 import { UpdateTodoItemDto } from './dtos/update-todo_item';
 
-@Controller('api/todolists')
+@Controller('api/toDoLists')
 export class TodoListsController {
   constructor(private todoListsService: TodoListsService) {}
 
@@ -64,7 +65,7 @@ export class TodoListsController {
   
   @Put('/:todoListId/items/:todoItemId')
   updateItem(
-    @Param() param: { todoListId: number; todoItemId: number },
+    @Param() param: {todoListId: number; todoItemId: number },
     @Body() dto: Partial<UpdateTodoItemDto>,
   ): TodoItem {
     return this.todoListsService.updateItem(
@@ -72,6 +73,7 @@ export class TodoListsController {
       param.todoItemId,
       dto,
     );
+    
   }
 
   @Delete('/:todoListId/items/:todoItemId')

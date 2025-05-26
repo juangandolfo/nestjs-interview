@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTodoListDto } from './dtos/create-todo_list';
 import { UpdateTodoListDto } from './dtos/update-todo_list';
 import { CreateTodoItemDto } from './dtos/create-todo_item';
@@ -102,16 +102,13 @@ export class TodoListsService {
   ): TodoItem {
     // Check if the todoListId exists
     if (this.todolists.find((x) => x.id === todoListId)) {
-      throw new Error('Todo list not found');
+      throw new NotFoundException('Todo list not found');
     }
     // Check if the todoItemId exists
     if(this.todoItems.find((x) => x.id === todoItemId)) {
-      throw new Error('Todo item not found');
+      throw new NotFoundException('Todo item not found');
     }
     const todoItem = this.todoItems.find((x) => x.id == Number(todoItemId));
-    if (!todoItem) {
-      throw new Error('Todo item not found');
-    }
     // Update the record when the item exists
     if (dto.description !== undefined) {
       todoItem.description = dto.description;
