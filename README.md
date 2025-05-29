@@ -86,6 +86,7 @@ You can interact with the API using Postman, curl, or any other API client.
 
 - **Get a specific todo list**
   - `GET /api/toDoLists/:todoListId`
+  - Replace `:todoListId` with the id of the list  
 
 - **Create a new todo list**
   - `POST /api/toDoLists`
@@ -112,7 +113,8 @@ You can interact with the API using Postman, curl, or any other API client.
 - **Delete an item from a list**
   - `DELETE /api/toDoLists/:todoListId/items/:todoItemId`
 
-
+Note: Replace `:todoListId` and `:todoItemId` with the actual ids. For example 
+`PUT /api/toDoLists/1/items/4`
 #### 3.2 - Option 2 - Run and use it with Claude (http still available)
 ##### 3.2.1 - Download Claude Desktop
 Go to [https://www.anthropic.com/claude/desktop](https://www.anthropic.com/claude/desktop) and download Claude Desktop for your operating system.  
