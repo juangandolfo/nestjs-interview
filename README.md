@@ -69,7 +69,7 @@ npm install
 #### 3.1 - Option 1 - Run it and use it over http.
 #### 3.1.1 - Start the server
 ```bash
-npm run start         # development
+npm run start         
 ```
 
 ##### 3.1.2 - Ready to use
@@ -77,7 +77,7 @@ Now that the server is running, it listens by default on **port 3000**.
 
 You can interact with the API using Postman, curl, or any other API client.
 **Base URL:**  
-[http://localhost:3000/api/toDoLists]
+[http://localhost:3000/api/toDoLists](http://localhost:3000/api/toDoLists)
 
 **Available endpoints:**
 
