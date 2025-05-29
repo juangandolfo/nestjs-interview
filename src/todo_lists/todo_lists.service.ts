@@ -32,7 +32,12 @@ export class TodoListsService {
   }
 
   create(dto: CreateTodoListDto): TodoList {
-    // Dont allow duplicate todo list names
+    if (dto.name === undefined || dto.name === null) {
+      throw new BadRequestException('Name is required for creating a todo list');
+    }
+    if (dto.name === '') {
+      throw new BadRequestException('Name is required for creating a todo list');
+    }
     if (this.todolists.find((x) => x.name === dto.name)) {
       throw new BadRequestException('Todo list already exists');
     }
@@ -47,7 +52,16 @@ export class TodoListsService {
   }
 
   update(id: number, dto: UpdateTodoListDto): TodoList {
-    if (dto.name === undefined) {
+    if (id === undefined || id === null || isNaN(Number(id))) {
+      throw new BadRequestException('Invalid todo list ID');
+    }
+    if (!this.todolists.find((x) => x.id === Number(id))) {
+      throw new NotFoundException('Todo list not found');
+    }
+    if (dto.name === undefined || dto.name === null) {
+      throw new BadRequestException('Name is required for updating a todo list');
+    }
+    if (dto.name === '') {
       throw new BadRequestException('Name is required for updating a todo list');
     }
     if (this.todolists.find((x) => x.name === dto.name)) {
@@ -64,23 +78,26 @@ export class TodoListsService {
     if (id === undefined || id === null || isNaN(Number(id))) {
       throw new BadRequestException('Invalid todo list ID');
     }
-    const index = this.todolists.findIndex((x) => x.id == Number(id));
-    // Check if the todoListId exists
-    if (!this.todolists.find((x) => x.id === id)) {
+    const todoList = this.todolists.find((x) => x.id === Number(id));
+    if (!todoList) {
       throw new NotFoundException('Todo list not found');
     }
-    
-    // Delete items associated with the todo list
-    this.todoItems.splice(this.todoItems.findIndex((x) => x.todoListId === id))
 
-    // Delete the todo list
-    if (index > -1) {
-      this.todolists.splice(index, 1);
+    // Remove all items associated with the todo list
+    for (let i = this.todoItems.length - 1; i >= 0; i--) {
+      if (this.todoItems[i].todoListId === Number(id)) {
+        this.todoItems.splice(i, 1);
+      }
     }
+
+    // Remove the todo list
+    const filtered = this.todolists.filter((x) => x.id !== Number(id));
+    this.todolists.length = 0;
+    this.todolists.push(...filtered);
   }
 
   allItems(todoListId: number): TodoItem[] {
-    if (todoListId === undefined || todoListId === null || isNaN(Number(todoListId))) {
+    if (todoListId === undefined || todoListId === null || isNaN(todoListId)) {
       throw new BadRequestException('Invalid todo list ID');
     }
     if (!this.todolists.find((x) => x.id === todoListId)) {
@@ -89,6 +106,7 @@ export class TodoListsService {
     return this.todoItems.filter((x) => x.todoListId === todoListId);
   }
 
+
   addItem(
     todoListId: number, 
     dto: CreateTodoItemDto
@@ -96,12 +114,16 @@ export class TodoListsService {
     if (todoListId === undefined || todoListId === null || isNaN(Number(todoListId))) {
       throw new BadRequestException('Invalid todo list ID');
     }
+    if (dto.description === undefined || dto.description === null || dto.description === '') {
+      throw new BadRequestException('Description is required for creating a todo item');
+    }
     if (!this.todolists.find((x) => x.id === todoListId)) {
       throw new NotFoundException(`Todo list with ID: ${todoListId} not found`);
     }
+    
     const todoItem: TodoItem = {
       id: this.nextItemId(),
-      todoListId: todoListId,
+      todoListId: Number(todoListId),
       description: dto.description, //agregar string vacio cuando no se recibe nada?
       completed: false,
     };
@@ -130,6 +152,9 @@ export class TodoListsService {
     }
     const todoItem = this.todoItems.find((x) => x.id == Number(todoItemId));
     // Update the record when the item exists
+    if (dto.description === '' || dto.description === null) {
+      throw new BadRequestException('Cannot update description to an empty string');
+    }
     if (dto.description !== undefined) {
       todoItem.description = dto.description;
     }

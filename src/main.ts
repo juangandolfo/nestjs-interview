@@ -11,7 +11,7 @@ import { SELF_DECLARED_DEPS_METADATA } from '@nestjs/common/constants';
 async function bootstrap() {
   // Iniciar servidor NestJS
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {logger: false});
-  await app.listen(3002);
+  await app.listen(3000);
   
 
   // Iniciar servidor MCP

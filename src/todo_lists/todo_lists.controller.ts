@@ -26,8 +26,9 @@ export class TodoListsController {
   }
 
   @Get('/:todoListId')
-  show(@Param() param: { todoListId: number }): TodoList {
-    return this.todoListsService.get(param.todoListId);
+  show(@Param() param: { todoListId: string }): TodoList {
+    const todoListId = Number(param.todoListId);
+    return this.todoListsService.get(todoListId);
   }
 
   @Post()
@@ -37,43 +38,49 @@ export class TodoListsController {
   
   @Put('/:todoListId')
   update(
-    @Param() param: { todoListId: number },
+    @Param() param: { todoListId: string },
     @Body() dto: UpdateTodoListDto,
   ): TodoList {
-    return this.todoListsService.update(param.todoListId, dto);
+    const todoListId = Number(param.todoListId);
+    return this.todoListsService.update(todoListId, dto);
   }
   
   @Delete('/:todoListId')
-  delete(@Param() param: { todoListId: number }): void {
-    this.todoListsService.delete(param.todoListId);
+  delete(@Param() param: { todoListId: string }): void {
+    const todoListId = Number(param.todoListId);
+    this.todoListsService.delete(todoListId);
   }
   
   @Get('/:todoListId/items')
   indexItems(
-    @Param() param: { todoListId: number }
+    @Param() param: { todoListId: string }
   ): TodoItem[] {
-    return this.todoListsService.allItems(param.todoListId);
+    const todoListId = Number(param.todoListId);
+    return this.todoListsService.allItems(todoListId);
   }
 
   @Post('/:todoListId/items')
   addItem(
-    @Param() param: { todoListId: number },
+    @Param() param: { todoListId: string },
     @Body() dto: CreateTodoItemDto,
   ): TodoItem {
-    return this.todoListsService.addItem(param.todoListId, dto);
+    const todoListId = Number(param.todoListId);
+    return this.todoListsService.addItem(todoListId, dto);
   } 
   
   @Put('/:todoListId/items/:todoItemId')
   updateItem(
-    @Param() param: {todoListId: number; todoItemId: number },
+    @Param() param: {todoListId: string; todoItemId: string },
     @Body() dto: Partial<UpdateTodoItemDto>,
   ): TodoItem {
+    const todoListId = Number(param.todoListId);
+    const todoItemId = Number(param.todoItemId);
+
     return this.todoListsService.updateItem(
-      param.todoListId,
-      param.todoItemId,
+      todoListId,
+      todoItemId,
       dto,
     );
-    
   }
 
   @Delete('/:todoListId/items/:todoItemId')
