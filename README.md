@@ -86,7 +86,7 @@ Follow the installation instructions to set it up on your computer.
    - Example configuration (adjust the path to your project):
 
 ```json
-   {
+{
   "mcpServers": {
     "todolist": {
       "command": "node",
