@@ -27,6 +27,9 @@ export class TodoListsController {
 
   @Get('/:todoListId')
   show(@Param() param: { todoListId: string }): TodoList {
+    if (param.todoListId === null) {
+      throw new BadRequestException('Invalid todo list ID');
+    }
     const todoListId = Number(param.todoListId);
     return this.todoListsService.get(todoListId);
   }
@@ -41,12 +44,18 @@ export class TodoListsController {
     @Param() param: { todoListId: string },
     @Body() dto: UpdateTodoListDto,
   ): TodoList {
+    if (param.todoListId === null) {
+      throw new BadRequestException('Invalid todo list ID');
+    }
     const todoListId = Number(param.todoListId);
     return this.todoListsService.update(todoListId, dto);
   }
   
   @Delete('/:todoListId')
   delete(@Param() param: { todoListId: string }): void {
+    if (param.todoListId === null) {
+      throw new BadRequestException('Invalid todo list ID');
+    }
     const todoListId = Number(param.todoListId);
     this.todoListsService.delete(todoListId);
   }
@@ -55,6 +64,9 @@ export class TodoListsController {
   indexItems(
     @Param() param: { todoListId: string }
   ): TodoItem[] {
+    if (param.todoListId === null) {
+      throw new BadRequestException('Invalid todo list ID');
+    }
     const todoListId = Number(param.todoListId);
     return this.todoListsService.allItems(todoListId);
   }
@@ -64,6 +76,9 @@ export class TodoListsController {
     @Param() param: { todoListId: string },
     @Body() dto: CreateTodoItemDto,
   ): TodoItem {
+    if (param.todoListId === null) {
+      throw new BadRequestException('Invalid todo list ID');
+    }
     const todoListId = Number(param.todoListId);
     return this.todoListsService.addItem(todoListId, dto);
   } 
@@ -73,6 +88,12 @@ export class TodoListsController {
     @Param() param: {todoListId: string; todoItemId: string },
     @Body() dto: Partial<UpdateTodoItemDto>,
   ): TodoItem {
+    if (param.todoListId === null) {
+      throw new BadRequestException('Invalid todo list ID');
+    }
+    if (param.todoItemId === null) {
+      throw new BadRequestException('Invalid todo item ID');
+    }
     const todoListId = Number(param.todoListId);
     const todoItemId = Number(param.todoItemId);
 
@@ -85,9 +106,17 @@ export class TodoListsController {
 
   @Delete('/:todoListId/items/:todoItemId')
   deleteItem(
-    @Param() param: { todoListId: number; todoItemId: number },
+    @Param() param: { todoListId: string; todoItemId: string },
   ): void {
-    this.todoListsService.deleteItem(param.todoListId, param.todoItemId);
+    if (param.todoListId === null) {
+      throw new BadRequestException('Invalid todo list ID');
+    }
+    if (param.todoItemId === null) {
+      throw new BadRequestException('Invalid todo item ID');
+    }
+    const todoListId = Number(param.todoListId);
+    const todoItemId = Number(param.todoItemId);
+    this.todoListsService.deleteItem(todoListId, todoItemId);
   }
 
 }

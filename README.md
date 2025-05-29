@@ -63,19 +63,20 @@ After installing you should see the version number.
 ```bash
 npm install
 ```
+### 3 - Running the server options
 
-### 3 - Option 1 - Run it and use it over http.
+#### 3.1 - Option 1 - Run it and use it over http.
 ```bash
 npm run start         # development
 ```
 After it is possible to make requests using Postman or any other API client to interact with the endpoints.
 
-### 4 - Option 2 - Use it with Claude
-#### 4.1 - Download Claude Desktop
+### 3.2 - Option 2 - Run and use it with Claude (http still available)
+#### 3.2.1 - Download Claude Desktop
 Go to [https://www.anthropic.com/claude/desktop](https://www.anthropic.com/claude/desktop) and download Claude Desktop for your operating system.  
 Follow the installation instructions to set it up on your computer.
 
-#### 4.2 - Modify the MCP configuration
+#### 3.2.2 - Modify the MCP configuration
 **Locate the Claude Desktop configuration file:**
    - Open Claude Desktop.
    - Go to the **Configure** or **Developer** tab.
@@ -99,17 +100,21 @@ Follow the installation instructions to set it up on your computer.
 }
 ```
 
-#### 4.3 - Build the project
+Note: Be careful to point the project path to the dist/main.js as it is the built version.
+
+#### 3.2.3 - Build the project
 Open a terminal and navigate to your project. Then run:
 ```bash
 npm run build
 ```
 
-#### 4.4 - Open Claude dekstop 
+#### 3.2.4 - Open Claude dekstop 
 Be sure to open claude dekstop from scratch. It is recommended to kill the claude task and then re-opening. This ensures it is being opened from scratch and it will take the MCP server configuration.
 
-#### 4.5 - Ready to use
-After completing this tasks you should be able to ask claude to create lists and tasks, edit them and delete them. 
+Note: Be sure not to have an instance of the same server running at the same time, both servers will try to use the same port and the one that tried to use later will fail to start.
+
+#### 3.2.5 - Ready to use
+After completing this tasks you should be able to ask claude to create lists and tasks, edit them and delete them. Give it commands like 'Create a list named travel planning and add the items clothes and passport to it'
 
 
 

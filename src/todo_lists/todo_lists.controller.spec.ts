@@ -36,7 +36,7 @@ describe('TodoListsController', () => {
   // 1 - valid
   describe('show', () => {
     it('should return the todolist with the given id', () => {
-      expect(todoListsController.show({ todoListId: 1 })).toEqual({
+      expect(todoListsController.show({ todoListId: '1' })).toEqual({
         id: 1,
         name: 'test1',
       });
@@ -46,7 +46,7 @@ describe('TodoListsController', () => {
   // 2 - Fail over invalid id
   describe('show with invalid id', () => {
     it('should throw an error when trying to get a todolist with an invalid id', () => {
-      expect(() => todoListsController.show({ todoListId: 4 })).toThrow(
+      expect(() => todoListsController.show({ todoListId: '4' })).toThrow(
         'Todo list not found',
       );
     });
@@ -55,7 +55,7 @@ describe('TodoListsController', () => {
   // 3 - Fail over invalid id type
   describe('show with invalid id type', () => {
     it('should throw an error when trying to get a todolist with an invalid id type', () => {
-      expect(() => todoListsController.show({ todoListId: NaN })).toThrow(
+      expect(() => todoListsController.show({ todoListId: 'a' })).toThrow(
         'Invalid todo list ID',
       );
     });
@@ -84,7 +84,7 @@ describe('TodoListsController', () => {
   describe('update', () => {
     it('should update the todolist with the given id', () => {
       expect(
-        todoListsController.update({ todoListId: 1 }, { name: 'modified' }),
+        todoListsController.update({ todoListId: '1' }, { name: 'modified' }),
       ).toEqual({ id: 1, name: 'modified' });
 
       expect(todoListService.get(1).name).toEqual('modified');
@@ -95,7 +95,7 @@ describe('TodoListsController', () => {
   describe('update with invalid id', () => {
     it('should throw an error when trying to update a todolist with an invalid id', () => {
       expect(() =>
-        todoListsController.update({ todoListId: 4 }, { name: 'modified' }),
+        todoListsController.update({ todoListId: '4' }, { name: 'modified' }),
       ).toThrow('Todo list not found');
     });
   });
@@ -104,7 +104,7 @@ describe('TodoListsController', () => {
   describe('update with invalid id type', () => {
     it('should throw an error when trying to update a todolist with an invalid id type', () => {
       expect(() =>
-        todoListsController.update({ todoListId: NaN }, { name: 'modified' }),
+        todoListsController.update({ todoListId: 'a' }, { name: 'modified' }),
       ).toThrow('Invalid todo list ID');
     });
   });
@@ -131,7 +131,7 @@ describe('TodoListsController', () => {
   describe('update with empty name', () => {
     it('should throw an error when trying to update a todolist with an empty name', () => {
       expect(() =>
-        todoListsController.update({ todoListId: 1 }, { name: '' }),
+        todoListsController.update({ todoListId: '1' }, { name: '' }),
       ).toThrow('Name is required for updating a todo list');
     });
   });
@@ -140,7 +140,7 @@ describe('TodoListsController', () => {
   describe('update with null name', () => {
     it('should throw an error when trying to update a todolist with a null name', () => {
       expect(() =>
-        todoListsController.update({ todoListId: 1 }, { name: null }),
+        todoListsController.update({ todoListId: '1' }, { name: null }),
       ).toThrow('Name is required for updating a todo list');
     });
   });
@@ -149,7 +149,7 @@ describe('TodoListsController', () => {
   describe('update with undefined name', () => {
     it('should throw an error when trying to update a todolist with an undefined name', () => {
       expect(() =>
-        todoListsController.update({ todoListId: 1 }, { name: undefined }),
+        todoListsController.update({ todoListId: '1' }, { name: undefined }),
       ).toThrow('Name is required for updating a todo list');
     });
   });
@@ -158,7 +158,7 @@ describe('TodoListsController', () => {
   describe('update with duplicate name', () => {
     it('should throw an error when trying to update a todolist with a duplicate name', () => {
       expect(() =>
-        todoListsController.update({ todoListId: 1 }, { name: 'test2' }),
+        todoListsController.update({ todoListId: '1' }, { name: 'test2' }),
       ).toThrow('Todo list already exists');
     });
   });
@@ -216,7 +216,7 @@ describe('TodoListsController', () => {
   // valid - no items
   describe('delete', () => {
     it('should delete the todolist with the given id', () => {
-      expect(() => todoListsController.delete({ todoListId: 1 })).not.toThrow();
+      expect(() => todoListsController.delete({ todoListId: '1' })).not.toThrow();
 
       expect(todoListService.all().map((x) => x.id)).toEqual([2]);
     });
@@ -225,8 +225,8 @@ describe('TodoListsController', () => {
   // valid - with items
   describe('delete with items', () => {
     it('should delete the todolist with the given id and its items', () => {
-      todoListsController.addItem({ todoListId: 1 }, { description: 'item 1' });
-      expect(() => todoListsController.delete({ todoListId: 1 })).not.toThrow();
+      todoListsController.addItem({ todoListId: '1' }, { description: 'item 1' });
+      expect(() => todoListsController.delete({ todoListId: '1' })).not.toThrow();
 
       expect(todoListService.all().map((x) => x.id)).toEqual([2]);
       expect(() => todoListService.allItems(1)).toThrow('Todo list not found');
@@ -245,7 +245,7 @@ describe('TodoListsController', () => {
   // delete with invalid id type
   describe('delete with invalid id type', () => {
     it('should throw an error when trying to delete a todolist with an invalid id type', () => {
-      expect(() => todoListsController.delete({ todoListId: NaN })).toThrow(
+      expect(() => todoListsController.delete({ todoListId: 'a' })).toThrow(
         'Invalid todo list ID',
       );
     });
@@ -263,7 +263,7 @@ describe('TodoListsController', () => {
   // delete with invalid id
   describe('delete with invalid id', () => {
     it('should throw an error when trying to delete a todolist with an invalid id', () => {
-      expect(() => todoListsController.delete({ todoListId: 4 })).toThrow(
+      expect(() => todoListsController.delete({ todoListId: '4' })).toThrow(
         'Todo list not found',
       );
     });
@@ -275,7 +275,7 @@ describe('TodoListsController', () => {
     it('should add an item to the todolist with the given id', () => {
       expect(
         todoListsController.addItem(
-          { todoListId: 1 },
+          { todoListId: '1' },
           { description: 'new item' },
         ),
       ).toEqual({
@@ -302,7 +302,7 @@ describe('TodoListsController', () => {
   describe('addItem with invalid id type', () => {
     it('should throw an error when trying to add an item to a todolist with an invalid id type', () => {
       expect(() =>
-        todoListsController.addItem({ todoListId: NaN }, { description: 'new item' }),
+        todoListsController.addItem({ todoListId: 'a' }, { description: 'new item' }),
       ).toThrow('Invalid todo list ID');
     });
   });
@@ -320,7 +320,7 @@ describe('TodoListsController', () => {
   describe('addItem with invalid todoListId', () => {
     it('should throw an error when trying to add an item to a todolist with an invalid todoListId', () => {
       expect(() =>
-        todoListsController.addItem({ todoListId: 4 }, { description: 'new item' }),
+        todoListsController.addItem({ todoListId: '4' }, { description: 'new item' }),
       ).toThrow('Todo list with ID: 4 not found');
     });
   });
@@ -329,7 +329,7 @@ describe('TodoListsController', () => {
   describe('addItem with empty description', () => {
     it('should throw an error when trying to add an item with an empty description', () => {
       expect(() =>
-        todoListsController.addItem({ todoListId: 1 }, { description: '' }),
+        todoListsController.addItem({ todoListId: '1' }, { description: '' }),
       ).toThrow('Description is required for creating a todo item');
     });
   });
@@ -338,7 +338,7 @@ describe('TodoListsController', () => {
   describe('addItem with undefined description', () => {
     it('should throw an error when trying to add an item with an undefined description', () => {
       expect(() =>
-        todoListsController.addItem({ todoListId: 1 }, { description: undefined }),
+        todoListsController.addItem({ todoListId: '1' }, { description: undefined }),
       ).toThrow('Description is required for creating a todo item');
     });
   });
@@ -347,7 +347,7 @@ describe('TodoListsController', () => {
   describe('addItem with null description', () => {
     it('should throw an error when trying to add an item with a null description', () => {
       expect(() =>
-        todoListsController.addItem({ todoListId: 1 }, { description: null }),
+        todoListsController.addItem({ todoListId: '1' }, { description: null }),
       ).toThrow('Description is required for creating a todo item');
     });
   });
@@ -357,9 +357,9 @@ describe('TodoListsController', () => {
   describe('indexItems', () => {
     it('should return the list of items for the given todolist', () => {
       // Add an item before running the test
-      todoListsController.addItem({ todoListId: 1 }, { description: 'item 1' });
+      todoListsController.addItem({ todoListId: '1' }, { description: 'item 1' });
 
-      expect(todoListsController.indexItems({ todoListId: 1 })).toEqual([
+      expect(todoListsController.indexItems({ todoListId: '1' })).toEqual([
         {
           id: 1,
           description: 'item 1',
@@ -374,11 +374,11 @@ describe('TodoListsController', () => {
   describe('indexItems with multiple items', () => {
     it('should return the list of items for the given todolist', () => {
       // Add multiple items before running the test
-      todoListsController.addItem({ todoListId: 1 }, { description: 'item 1' });
-      todoListsController.addItem({ todoListId: 1 }, { description: 'item 2' });
-      todoListsController.addItem({ todoListId: 1 }, { description: 'item 3' });
+      todoListsController.addItem({ todoListId: '1' }, { description: 'item 1' });
+      todoListsController.addItem({ todoListId: '1' }, { description: 'item 2' });
+      todoListsController.addItem({ todoListId: '1' }, { description: 'item 3' });
 
-      expect(todoListsController.indexItems({ todoListId: 1 })).toEqual([
+      expect(todoListsController.indexItems({ todoListId: '1' })).toEqual([
         {
           id: 1,
           description: 'item 1',
@@ -404,7 +404,7 @@ describe('TodoListsController', () => {
   // valid - no items
   describe('indexItems with no items', () => {
     it('should return an empty list when there are no items in the todolist', () => {
-      expect(todoListsController.indexItems({ todoListId: 1 })).toEqual([]);
+      expect(todoListsController.indexItems({ todoListId: '1' })).toEqual([]);
     });
   });
 
@@ -420,7 +420,7 @@ describe('TodoListsController', () => {
   // indexItems with invalid id type
   describe('indexItems with invalid id type', () => {
     it('should throw an error when trying to get items from a todolist with an invalid id type', () => {
-      expect(() => todoListsController.indexItems({ todoListId: NaN })).toThrow(
+      expect(() => todoListsController.indexItems({ todoListId: 'a' })).toThrow(
         'Invalid todo list ID',
       );
     });
@@ -438,7 +438,7 @@ describe('TodoListsController', () => {
   // indexItems with invalid todoListId
   describe('indexItems with invalid todoListId', () => {
     it('should throw an error when trying to get items from a todolist with an invalid todoListId', () => {
-      expect(() => todoListsController.indexItems({ todoListId: 4 })).toThrow(
+      expect(() => todoListsController.indexItems({ todoListId: '4' })).toThrow(
         'Todo list not found',
       );
     });
@@ -448,10 +448,10 @@ describe('TodoListsController', () => {
   // valid - only description is updated
   describe('updateItem', () => {
     it('should update the item with the given id', () => {
-      todoListsController.addItem({ todoListId: 1 }, { description: 'item 1' });
+      todoListsController.addItem({ todoListId: '1' }, { description: 'item 1' });
       expect(
         todoListsController.updateItem(
-          { todoListId: 1, todoItemId: 1 },
+          { todoListId: '1', todoItemId: '1' },
           { description: 'updated item' },
         ),
       ).toEqual({
@@ -468,10 +468,10 @@ describe('TodoListsController', () => {
   // valid - only completed is updated
   describe('updateItem with completed status', () => {
     it('should update the item completed status', () => {
-      todoListsController.addItem({ todoListId: 1 }, { description: 'item 1' });
+      todoListsController.addItem({ todoListId: '1' }, { description: 'item 1' });
       expect(
         todoListsController.updateItem(
-          { todoListId: 1, todoItemId: 1 },
+          { todoListId: '1', todoItemId: '1' },
           { completed: true },
         ),
       ).toEqual({
@@ -488,10 +488,10 @@ describe('TodoListsController', () => {
   // valid - both description and completed are updated
   describe('updateItem with description and completed status', () => {
     it('should update the item with the given id', () => {
-      todoListsController.addItem({ todoListId: 1 }, { description: 'item 1' });
+      todoListsController.addItem({ todoListId: '1' }, { description: 'item 1' });
       expect(
         todoListsController.updateItem(
-          { todoListId: 1, todoItemId: 1 },
+          { todoListId: '1', todoItemId: '1' },
           { description: 'updated item', completed: true },
         ),
       ).toEqual({
@@ -510,10 +510,10 @@ describe('TodoListsController', () => {
   // valid - no updates
   describe('updateItem with no updates', () => {
     it('should return the item without making any changes', () => {
-      todoListsController.addItem({ todoListId: 1 }, { description: 'item 1' });
+      todoListsController.addItem({ todoListId: '1' }, { description: 'item 1' });
       expect(
         todoListsController.updateItem(
-          { todoListId: 1, todoItemId: 1 },
+          { todoListId: '1', todoItemId: '1' },
           {},
         ),
       ).toEqual({
@@ -534,7 +534,7 @@ describe('TodoListsController', () => {
     it('should throw an error when trying to update an item with a null todoListId', () => {
       expect(() =>
         todoListsController.updateItem(
-          { todoListId: null, todoItemId: 1 },
+          { todoListId: null, todoItemId: '1' },
           { description: 'updated item' },
         ),
       ).toThrow('Invalid todo list ID');
@@ -546,7 +546,7 @@ describe('TodoListsController', () => {
     it('should throw an error when trying to update an item with an invalid todoListId type', () => {
       expect(() =>
         todoListsController.updateItem(
-          { todoListId: NaN, todoItemId: 1 },
+          { todoListId: 'a', todoItemId: '1' },
           { description: 'updated item' },
         ),
       ).toThrow('Invalid todo list ID');
@@ -558,7 +558,7 @@ describe('TodoListsController', () => {
     it('should throw an error when trying to update an item with an empty todoListId', () => {
       expect(() =>
         todoListsController.updateItem(
-          { todoListId: undefined, todoItemId: 1 },
+          { todoListId: undefined, todoItemId: '1' },
           { description: 'updated item' },
         ),
       ).toThrow('Invalid todo list ID');
@@ -570,7 +570,7 @@ describe('TodoListsController', () => {
     it('should throw an error when trying to update an item with an invalid todoListId', () => {
       expect(() =>
         todoListsController.updateItem(
-          { todoListId: 4, todoItemId: 1 },
+          { todoListId: '4', todoItemId: '1' },
           { description: 'updated item' },
         ),
       ).toThrow('Todo list not found');
@@ -582,7 +582,7 @@ describe('TodoListsController', () => {
     it('should throw an error when trying to update an item with a null todoItemId', () => {
       expect(() =>
         todoListsController.updateItem(
-          { todoListId: 1, todoItemId: null },
+          { todoListId: '1', todoItemId: null },
           { description: 'updated item' },
         ),
       ).toThrow('Invalid todo item ID');
@@ -594,7 +594,7 @@ describe('TodoListsController', () => {
     it('should throw an error when trying to update an item with an invalid todoItemId type', () => {
       expect(() =>
         todoListsController.updateItem(
-          { todoListId: 1, todoItemId: NaN },
+          { todoListId: '1', todoItemId: 'a' },
           { description: 'updated item' },
         ),
       ).toThrow('Invalid todo item ID');
@@ -606,7 +606,7 @@ describe('TodoListsController', () => {
     it('should throw an error when trying to update an item with an empty todoItemId', () => {
       expect(() =>
         todoListsController.updateItem(
-          { todoListId: 1, todoItemId: undefined },
+          { todoListId: '1', todoItemId: undefined },
           { description: 'updated item' },
         ),
       ).toThrow('Invalid todo item ID');
@@ -618,7 +618,7 @@ describe('TodoListsController', () => {
     it('should throw an error when trying to update an item with an invalid todoItemId', () => {
       expect(() =>
         todoListsController.updateItem(
-          { todoListId: 1, todoItemId: 4 },
+          { todoListId: '1', todoItemId: '4' },
           { description: 'updated item' },
         ),
       ).toThrow('Todo item not found');
@@ -629,9 +629,9 @@ describe('TodoListsController', () => {
   // valid
   describe('deleteItem', () => {
     it('should delete the item with the given id', () => {
-      todoListsController.addItem({ todoListId: 1 }, { description: 'item 1' });
+      todoListsController.addItem({ todoListId: '1' }, { description: 'item 1' });
       expect(() =>
-        todoListsController.deleteItem({ todoListId: 1, todoItemId: 1 }),
+        todoListsController.deleteItem({ todoListId: '1', todoItemId: '1' }),
       ).not.toThrow();
 
       expect(todoListService.allItems(1).length).toBe(0);
@@ -642,7 +642,7 @@ describe('TodoListsController', () => {
   describe('deleteItem with null todoListId', () => {
     it('should throw an error when trying to delete an item with a null todoListId', () => {
       expect(() =>
-        todoListsController.deleteItem({ todoListId: null, todoItemId: 1 }),
+        todoListsController.deleteItem({ todoListId: null, todoItemId: '1' }),
       ).toThrow('Invalid todo list ID');
     });
   });
@@ -651,7 +651,7 @@ describe('TodoListsController', () => {
   describe('deleteItem with invalid todoListId type', () => {
     it('should throw an error when trying to delete an item with an invalid todoListId type', () => {
       expect(() =>
-        todoListsController.deleteItem({ todoListId: NaN, todoItemId: 1 }),
+        todoListsController.deleteItem({ todoListId: 'a', todoItemId: '1' }),
       ).toThrow('Invalid todo list ID');
     });
   });
@@ -660,7 +660,7 @@ describe('TodoListsController', () => {
   describe('deleteItem with undefined todoListId', () => {
     it('should throw an error when trying to delete an item with an empty todoListId', () => {
       expect(() =>
-        todoListsController.deleteItem({ todoListId: undefined, todoItemId: 1 }),
+        todoListsController.deleteItem({ todoListId: undefined, todoItemId: '1' }),
       ).toThrow('Invalid todo list ID');
     });
   });
@@ -669,7 +669,7 @@ describe('TodoListsController', () => {
   describe('deleteItem with invalid todoListId', () => {
     it('should throw an error when trying to delete an item with an invalid todoListId', () => {
       expect(() =>
-        todoListsController.deleteItem({ todoListId: 4, todoItemId: 1 }),
+        todoListsController.deleteItem({ todoListId: '4', todoItemId: '1' }),
       ).toThrow('Todo list not found');
     });
   });
@@ -678,7 +678,7 @@ describe('TodoListsController', () => {
   describe('deleteItem with null todoItemId', () => {
     it('should throw an error when trying to delete an item with a null todoItemId', () => {
       expect(() =>
-        todoListsController.deleteItem({ todoListId: 1, todoItemId: null }),
+        todoListsController.deleteItem({ todoListId: '1', todoItemId: null }),
       ).toThrow('Invalid todo item ID');
     });
   });
@@ -687,7 +687,7 @@ describe('TodoListsController', () => {
   describe('deleteItem with invalid todoItemId type', () => {
     it('should throw an error when trying to delete an item with an invalid todoItemId type', () => {
       expect(() =>
-        todoListsController.deleteItem({ todoListId: 1, todoItemId: NaN }),
+        todoListsController.deleteItem({ todoListId: '1', todoItemId: 'a' }),
       ).toThrow('Invalid todo item ID');
     });
   });
@@ -696,7 +696,7 @@ describe('TodoListsController', () => {
   describe('deleteItem with undefined todoItemId', () => {
     it('should throw an error when trying to delete an item with an empty todoItemId', () => {
       expect(() =>
-        todoListsController.deleteItem({ todoListId: 1, todoItemId: undefined }),
+        todoListsController.deleteItem({ todoListId: '1', todoItemId: undefined }),
       ).toThrow('Invalid todo item ID');
     });
   });
@@ -705,7 +705,7 @@ describe('TodoListsController', () => {
   describe('deleteItem with invalid todoItemId', () => {
     it('should throw an error when trying to delete an item with an invalid todoItemId', () => {
       expect(() =>
-        todoListsController.deleteItem({ todoListId: 1, todoItemId: 4 }),
+        todoListsController.deleteItem({ todoListId: '1', todoItemId: '4' }),
       ).toThrow('Todo item not found');
     });
   });

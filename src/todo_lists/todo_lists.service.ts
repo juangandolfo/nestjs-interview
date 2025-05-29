@@ -171,10 +171,10 @@ export class TodoListsService {
     if (todoItemId === undefined || todoItemId === null || isNaN(Number(todoItemId))) {
       throw new BadRequestException('Invalid todo item ID');
     } 
-    if (!this.todolists.find((x) => x.id === todoListId)) {
+    if (!this.todolists.find((x) => x.id === Number(todoListId))) {
       throw new NotFoundException('Todo list not found');
     }
-    if(!this.todoItems.find((x) => x.id === todoItemId)) {
+    if(!this.todoItems.find((x) => x.id === Number(todoItemId))) {
       throw new NotFoundException('Todo item not found');
     }
     const index = this.todoItems.findIndex((x) => x.id == Number(todoItemId));
